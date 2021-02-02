@@ -40,6 +40,8 @@ export default class Application extends EventEmitter {
 
     await populate(universe, this);
 
+    console.log(universe.entities)
+
     this.emit(Application.events.APP_READY);
   }
 }

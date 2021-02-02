@@ -8,8 +8,8 @@ export default class StarWarsUniverse {
     
 
     async init() {
-        const root = await fetch('https://swapi.booost.bg/api/')
-        .then(r => r.json())
-        return root;
+        const resp = await fetch('https://swapi.booost.bg/api/')
+        const data = await resp.json()
+        return data;
     }
 }
