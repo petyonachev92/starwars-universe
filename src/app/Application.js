@@ -1,5 +1,7 @@
 import config from '../config';
 import EventEmitter from 'eventemitter3';
+import StarWarsUniverse from './custom/StarWarsUniverse'
+import Entity from './custom/Entity'
 
 const EVENTS = {
   APP_READY: 'app_ready',
@@ -14,7 +16,8 @@ export default class Application extends EventEmitter {
     super();
 
     this.config = config;
-    this.data = {};
+    this.data = {
+    };
 
     this.init();
   }
@@ -31,6 +34,18 @@ export default class Application extends EventEmitter {
    */
   async init() {
     // Initiate classes and wait for async operations here.
+
+    const universe = new StarWarsUniverse()
+
+    const universeData = await universe.init()
+    for( const [name, data] of Object.entries(universeData)) {
+      const ent = new Entity(name, data)
+      universe.entities.push(ent)
+    }
+
+    console.log(universe.entities)
+
+    this.data.universe = universe
 
     this.emit(Application.events.APP_READY);
   }
