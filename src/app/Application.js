@@ -2,6 +2,7 @@ import config from '../config';
 import EventEmitter from 'eventemitter3';
 import StarWarsUniverse from './custom/StarWarsUniverse'
 import Entity from './custom/Entity'
+import populate from './utils';
 
 const EVENTS = {
   APP_READY: 'app_ready',
@@ -37,15 +38,7 @@ export default class Application extends EventEmitter {
 
     const universe = new StarWarsUniverse()
 
-    const universeData = await universe.init()
-    for( const [name, data] of Object.entries(universeData)) {
-      const ent = new Entity(name, data)
-      universe.entities.push(ent)
-    }
-
-    console.log(universe.entities)
-
-    this.data.universe = universe
+    await populate(universe, this);
 
     this.emit(Application.events.APP_READY);
   }
